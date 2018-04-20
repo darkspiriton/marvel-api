@@ -9,7 +9,11 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      name: 'hulk'
     }
+  },
+  created () {
+    this.$store.dispatch('FETCH_CHARACTERS', this.name)
   }
 }
 </script>
