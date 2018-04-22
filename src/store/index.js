@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 
 Vue.use(Vuex)
+
+const API_PATH = 'https://gateway.marvel.com:443/v1/public/characters'
+const API_KEY = '9c81f42791192294caffafc8b5bd446f'
 
 const store = new Vuex.Store({
   state: {
@@ -11,6 +13,9 @@ const store = new Vuex.Store({
   getters: {
     characters: state => {
       return state.data
+    },
+    characterId: state => id => {
+      return state.data.find(character => { return character.id === id })
     }
   },
   mutations: {
@@ -19,17 +24,28 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    async FETCH_CHARACTERS ({ commit }, name) {
-      let response = await axios.get('https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=' + name + '&orderBy=name&apikey=9c81f42791192294caffafc8b5bd446f')
-      let characters = []
-      response.data.data.results.forEach(character => {
-        if (character.description.trim() !== '') {
-          character.image = character.thumbnail.path + '.' + character.thumbnail.extension
-          characters.push(character)
+    async FETCH_CHARACTERS ({ commit }, name, order = 'name') {
+      try {
+        let requestString = `${API_PATH}?nameStartsWith=${name}&orderBy=${order}&apikey=${API_KEY}`
+        let response = await fetch(requestString)
+
+        if (!response.ok) {
+          throw Error(response.statusText)
         }
-      })
-      commit('RECEIVE_CHARACTERS', { characters })
-      // console.log(response.data.data.results[0])
+
+        let dataResponse = await response.json()
+
+        let characters = []
+        dataResponse.data.results.forEach(character => {
+          if (character.description.trim() !== '') {
+            character.image = `${character.thumbnail.path}.${character.thumbnail.extension}`
+            characters.push(character)
+          }
+        })
+        commit('RECEIVE_CHARACTERS', { characters })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
   }
