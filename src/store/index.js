@@ -20,8 +20,14 @@ const store = new Vuex.Store({
   },
   actions: {
     async FETCH_CHARACTERS ({ commit }, name) {
-      let response = await axios.get('https://gateway.marvel.com:443/v1/public/characters?name=' + name + '&apikey=------')
-      let characters = response.data.data.results
+      let response = await axios.get('https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=' + name + '&orderBy=name&apikey=9c81f42791192294caffafc8b5bd446f')
+      let characters = []
+      response.data.data.results.forEach(character => {
+        if (character.description.trim() !== '') {
+          character.image = character.thumbnail.path + '.' + character.thumbnail.extension
+          characters.push(character)
+        }
+      })
       commit('RECEIVE_CHARACTERS', { characters })
       // console.log(response.data.data.results[0])
     }

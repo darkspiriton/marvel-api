@@ -1,16 +1,19 @@
 <template>
-  <div id="app">
-    <HelloWorld/>
+  <div id="app" class="page">
+    <SearchCharacterForm  />
+    <CharactersList />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import SearchCharacterForm from './components/SearchCharacterForm '
+import CharactersList from './components/CharactersList'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SearchCharacterForm,
+    CharactersList
   }
 }
 </script>
