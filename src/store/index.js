@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { API_PATH, API_KEY } from '../config'
 
 Vue.use(Vuex)
-
-const API_PATH = 'https://gateway.marvel.com:443/v1/public/characters'
-const API_KEY = '9c81f42791192294caffafc8b5bd446f'
 
 const store = new Vuex.Store({
   state: {
