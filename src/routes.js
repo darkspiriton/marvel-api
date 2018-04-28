@@ -1,14 +1,16 @@
 import VueRouter from 'vue-router'
-import App from './components/App'
+import CharacterMain from './components/CharacterMain'
 
 const routes = [
   {
     path: '/',
-    component: App
+    name: 'search',
+    component: CharacterMain
   }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import SearchCharacterForm from './SearchCharacterForm '
-import CharactersList from './CharactersList'
+import SearchCharacterForm from './elements/SearchCharacterForm '
+import CharactersList from './elements/CharactersList'
 
 export default {
   name: 'App',
