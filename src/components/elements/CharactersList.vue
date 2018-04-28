@@ -16,6 +16,7 @@
             <button class="ui icon purple tiny button">
                 More Info
             </button>
+            <router-link :to="{ name: 'character-detail', params: {characterId: character.id}}">More Info</router-link>
           </a>
         </span>
       </div>
