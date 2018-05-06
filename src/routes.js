@@ -11,7 +11,10 @@ const routes = [
   {
     path: '/character/:characterId',
     name: 'character-detail',
-    component: CharacterDetail
+    component: CharacterDetail,
+    beforeEnter: (to, from, next) => {
+      to.params.characterId >= 0 ? next() : next({path: '/'})
+    }
   }
 ]
 

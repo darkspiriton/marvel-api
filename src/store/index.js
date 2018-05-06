@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    data: []
+    data: null,
+    loadingData: false
   },
   getters: {
     characters: state => {
@@ -14,16 +15,23 @@ const store = new Vuex.Store({
     },
     characterId: state => id => {
       return state.data.find(character => { return character.id === id })
+    },
+    loadingCharacter: state => {
+      return state.loadingData
     }
   },
   mutations: {
     RECEIVE_CHARACTERS (state, { characters }) {
       state.data = characters
+    },
+    SET_LOADING_STATUS (state, status) {
+      state.loadingData = status
     }
   },
   actions: {
     async FETCH_CHARACTERS ({ commit }, name, order = 'name') {
       try {
+        commit('SET_LOADING_STATUS', true)
         let requestString = `${API_PATH}?nameStartsWith=${name}&orderBy=${order}&apikey=${API_KEY}`
         let response = await fetch(requestString)
 
@@ -41,6 +49,7 @@ const store = new Vuex.Store({
           }
         })
         commit('RECEIVE_CHARACTERS', { characters })
+        commit('SET_LOADING_STATUS', false)
       } catch (error) {
         console.log(error)
       }
