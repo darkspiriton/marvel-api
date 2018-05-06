@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 import { API_PATH, API_KEY } from '../config'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     data: null,
     loadingData: false
@@ -13,8 +15,8 @@ const store = new Vuex.Store({
     characters: state => {
       return state.data
     },
-    characterId: state => id => {
-      return state.data.find(character => { return character.id === id })
+    getCharacterId: state => id => {
+      return state.data ? state.data.find(character => { return character.id === id }) : null
     },
     loadingCharacter: state => {
       return state.loadingData
